@@ -65,7 +65,7 @@
     dest: configs/{{ IP_subject_alt_name }}/windows_{{ item }}.ps1
     mode: 0600
   become: no
-  when: Win10_Enabled is defined and Win10_Enabled == "Y"
+  when: cipher_compat_mode is defined and cipher_compat_mode == True
   with_items: "{{ users }}"
 
 - name: Restrict permissions for the local private directories

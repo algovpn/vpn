@@ -10,7 +10,7 @@ conn %default
     compress=yes
     dpddelay=35s
 
-{% if Win10_Enabled is defined and Win10_Enabled == "Y" %}
+{% if cipher_compat_mode is defined and cipher_compat_mode == True %}
     ike={{ ciphers.compat.ike }}
     esp={{ ciphers.compat.esp }}
 {% else %}
