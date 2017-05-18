@@ -24,8 +24,7 @@
     - name: Generate server/client keys and certificates
       vpn_keymanager:
         ca_cn: "{{ remote_host }}"
-        clients:
-          - defunct
+        clients: "{{ vpn_clients }}"
       register: keymanager
       delegate_to: localhost
 

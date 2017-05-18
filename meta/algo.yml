@@ -1,3 +1,9 @@
 algo:
   name: vpn
   type: core
+  arguments:
+    - argument: --clients
+      default: ['client1', 'client2']
+      help: A list of VPN clients
+      dest: vpn_clients
+      nargs: +
