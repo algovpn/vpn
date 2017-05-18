@@ -2,24 +2,24 @@
 
 - name: Copy the keys to the strongswan directory
   copy:
-    src: "{{ item.src }}"
+    content: "{{ item.content }}"
     dest: "{{ item.dest }}"
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
     mode: "{{ item.mode }}"
   with_items:
-    - src: "configs/{{ IP_subject_alt_name }}/pki/cacert.pem"
+    - content: "{{ keymanager.result.ca_cert }}"
       dest: "{{ config_prefix|default('/') }}etc/ipsec.d/cacerts/ca.crt"
       owner: strongswan
       group: "{{ root_group|default('root') }}"
       mode: "0600"
-    - src: "configs/{{ IP_subject_alt_name }}/pki/certs/{{ IP_subject_alt_name }}.crt"
-      dest: "{{ config_prefix|default('/') }}etc/ipsec.d/certs/{{ IP_subject_alt_name }}.crt"
+    - content: "{{ keymanager.result.server.certificate }}"
+      dest: "{{ config_prefix|default('/') }}etc/ipsec.d/certs/{{ remote_host }}.crt"
       owner: strongswan
       group: "{{ root_group|default('root') }}"
       mode: "0600"
-    - src: "configs/{{ IP_subject_alt_name }}/pki/private/{{ IP_subject_alt_name }}.key"
-      dest: "{{ config_prefix|default('/') }}etc/ipsec.d/private/{{ IP_subject_alt_name }}.key"
+    - content: "{{ keymanager.result.server.private_key }}"
+      dest: "{{ config_prefix|default('/') }}etc/ipsec.d/private/{{ remote_host }}.key"
       owner: strongswan
       group: "{{ root_group|default('root') }}"
       mode: "0600"

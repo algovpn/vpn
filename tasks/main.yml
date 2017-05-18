@@ -20,11 +20,16 @@
       register: strongswan_version
 
     - include: ipec_configuration.yml
-#    - include: openssl.yml
-#      tags: update-users
+
+    - name: Generate server/client keys and certificates
+      vpn_keymanager:
+        ca_cn: "{{ remote_host }}"
+        clients:
+          - defunct
+      register: keymanager
+      delegate_to: localhost
+
     - include: distribute_keys.yml
-    - include: client_configs.yml
-      tags: update-users
 
     - meta: flush_handlers
 
