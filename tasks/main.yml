@@ -27,6 +27,7 @@
         clients: "{{ vpn_clients }}"
       register: keymanager
       delegate_to: localhost
+      no_log: True
 
     - include: distribute_keys.yml
 
