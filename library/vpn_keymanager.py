@@ -21,7 +21,7 @@ from OpenSSL import crypto
 from OpenSSL.crypto import _lib
 from os import urandom
 from binascii import hexlify
-
+from base64 import b64encode
 
 class PKey(crypto.PKey):
     def generate_ec_key(self, curve):
@@ -142,7 +142,7 @@ class KeyStore(object):
             'public_key': self.public_key,
             'certificate': self.certificate,
             'ca': self.ca,
-            'p12': self.export_p12(passphrase)
+            'p12': b64encode(self.export_p12(passphrase))
         }
 
 
