@@ -6,4 +6,5 @@ algo:
       default: ['client1', 'client2']
       help: A list of VPN clients
       dest: vpn_clients
+      required: True
       nargs: +

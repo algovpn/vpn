@@ -25,3 +25,4 @@
       mode: "0600"
   notify:
     - restart strongswan
+  no_log: True
