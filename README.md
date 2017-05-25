@@ -1,22 +1,40 @@
-Role Name
-=========
+algovpn.vpn
+===========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Deploys strongswan with the most secure defaults available.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Name           | Default Value | Description                        |
+| -------------- | ------------- | -----------------------------------|
+| `clients` | None | A list of client names to be used during key generation |
+| `dns_servers.ipv4`| ['8.8.8.8', '8.8.4.4'] | ipv4 DNS servers. |
+| `dns_servers.ipv6`| ['2001:4860:4860::8888', '2001:4860:4860::8844'] | ipv6 DNS servers. |
+| `vpn_network` | 10.19.48.0/24 | ipv4 subnet to be used for the VPN network. |
+| `vpn_network_ipv6` | fd9d:bc11:4020::/48 | ipv6 subnet to be used for the VPN network. |
 
-Dependencies
-------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Registered Variables
+--------------------
+Variables available for use after this role has been included.
+
+| Name           | Type | Description                        |
+| -------------- | ------------- | -----------------------------------|
+| `keymanager` | dict(`keymanager`) | A keystore containing CA, server, client keys, certificates and passphrases. |
+
+`keymanager` (see vpn_keymanager.py):
+```
+        return {
+            'p12_passphrase': self._p12_passphrase,
+            'ca_cert': crypto.dump_certificate(crypto.FILETYPE_PEM, self._cacert),
+            'ca_key': self.cakey,
+            'ca_key_passphrase': self._cakey_passphrase,
+            'server': self._server.export(),
+            'clients': [c.export(passphrase=self._p12_passphrase) for c in self.clients]
+        }
+```
+
 
 Example Playbook
 ----------------
@@ -25,14 +43,14 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: algovpn.vpn, vpn_clients: ['client1', 'client2']}
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+AlgoVPN
