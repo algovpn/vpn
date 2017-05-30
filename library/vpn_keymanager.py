@@ -23,6 +23,7 @@ from os import urandom
 from binascii import hexlify
 from base64 import b64encode
 
+
 class PKey(crypto.PKey):
     def generate_ec_key(self, curve):
         """
@@ -285,6 +286,7 @@ class KeyManager(object):
 
 try:
     from OpenSSL import crypto
+
     pyopenssl_found = True
 except ImportError:
     pyopenssl_found = False
